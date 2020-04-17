@@ -16,7 +16,18 @@ const puppeteer = require('puppeteer');
 
   const state = await page.select('select#location-states', 'SC');
   const cafe = await page.select('select.fancy-select.state-locs', '3576171');
+  await page.waitForSelector('.single-menu-item')
 
+/*
+THE CAFE HAS BEEN SELECTED
+*/
+
+  const menuItems = await page.$$('.single-menu-item');
+
+  for (item of menuItems) {
+    let title = await item.$eval('.menu-item h5', (title) => title.innerText);
+    console.log(title);
+  }
 
 
 
