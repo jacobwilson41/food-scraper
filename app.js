@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 
   const url = 'https://www.cleaneatz.com/mealplanmenu';
 
-  const browser = await puppeteer.launch({headless: true, slowmo: false, defaultViewport: null});
+  const browser = await puppeteer.launch({headless: false, slowmo: false, defaultViewport: null});
 
   const context = browser.defaultBrowserContext();
   await context.overridePermissions(url, ['geolocation']);
@@ -36,7 +36,20 @@ THE CAFE HAS BEEN SELECTED
 
   console.log(scrapedMealz);
 
+/*
+THE MEALS HAVE BEEN SCRAPED AND COMPILED INTO AN ARRAY OF OBJECTS
+*/
 
+  await page.goto('https://www.myfitnesspal.com/account/login');
+  await page.waitFor('//*[@id="username"]');
+  await page.click('input#username.text');
+
+  await page.keyboard.type('jacobcharles96@gmail.com');
+  await page.keyboard.press('Tab')
+  await page.keyboard.type('Jake1996')
+
+  const login = await page.$('form.login div.member-login input[type="submit"]')
+  login.click();
 
 
   // browser.close();
