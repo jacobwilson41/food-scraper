@@ -24,11 +24,17 @@ THE CAFE HAS BEEN SELECTED
 
   const menuItems = await page.$$('.single-menu-item');
 
+  const scrapedMealz = [];
+
   for (item of menuItems) {
-    let title = await item.$eval('.menu-item h5', (title) => title.innerText);
-    console.log(title);
+    const title = await item.$eval('.menu-item h5', (title) => title.innerText);
+    const [description, macros] = await item.$$eval('.menu-item p', (nodes) => nodes.map(node => node.innerText));
+    const [calories, fat, carbs, protein] = macros.split(/ |\n|g/).filter(str => parseInt(str)).map(str => parseInt(str));
+
+    scrapedMealz.push({title, calories, protein, carbs, fat});
   }
 
+  console.log(scrapedMealz);
 
 
 
